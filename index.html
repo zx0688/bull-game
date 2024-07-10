@@ -103,10 +103,11 @@
     var script = document.createElement("script");
     script.src = loaderUrl;
     script.onload = () => {
+      var initDataUnsafe_json = JSON.stringify(tg.initDataUnsafe);
       fetch('http://localhost:8443/profile/get', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json'},
-        body: JSON.stringify(tg.initDataUnsafe)
+        body: initDataUnsafe_json
       })
       .then(response => {
         if (!response.ok)
@@ -120,7 +121,7 @@
               progressText.innerText = Math.round(100 * progress) + "%";
           }).then((unityInstance) => {
 
-        unityInstance.SendMessage('GameModel', 'ReceiveTelegramData', data, tg.initDataUnsafe);
+        unityInstance.SendMessage('GameModel', 'ReceiveTelegramData', data, initDataUnsafe_json);
 
         loadingBar.style.display = "none";
         }).catch((message) => {
