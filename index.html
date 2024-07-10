@@ -122,7 +122,7 @@
               progressText.innerText = Math.round(100 * progress) + "%";
           }).then((unityInstance) => {
 
-        unityInstance.SendMessage('GameModel', 'ReceiveTelegramData', JSON.stringify({data:data, tg:initDataUnsafe_json});
+        unityInstance.SendMessage('GameModel', 'ReceiveTelegramData', JSON.stringify({data:data, tg:initDataUnsafe_json}));
 
         loadingBar.style.display = "none";
         }).catch((message) => {
