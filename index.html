@@ -103,18 +103,30 @@
     var script = document.createElement("script");
     script.src = loaderUrl;
     script.onload = () => {
-      createUnityInstance(canvas, config, (progress) => {
-        progressBarFull.style.width = 100 * progress + "%";
-        progressText.innerText = Math.round(100 * progress) + "%";
-      }).then((unityInstance) => {
+      fetch('http://localhost:8443/profile/get', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(tg.initDataUnsafe)
+      })
+      .then(response => {
+        if (!response.ok)
+          throw new Error('Backend connection error ' + response.statusText);
+        return response.json();
+      })
+      .then(data => {
+          console.log(data);
+          createUnityInstance(canvas, config, (progress) => {
+              progressBarFull.style.width = 100 * progress + "%";
+              progressText.innerText = Math.round(100 * progress) + "%";
+          }).then((unityInstance) => {
 
-        var jsonData = JSON.stringify(tg.initDataUnsafe);
-        unityInstance.SendMessage('GameModel', 'ReceiveTelegramData', jsonData);
+        unityInstance.SendMessage('GameModel', 'ReceiveTelegramData', data, tg.initDataUnsafe);
 
         loadingBar.style.display = "none";
-      }).catch((message) => {
-        alert(message);
-      });
+        }).catch((message) => {
+          alert(message);
+        });
+      })
     };
 
     document.body.appendChild(script);
