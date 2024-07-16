@@ -116,7 +116,7 @@
         return response.text();
       })
       .then(data => {
-          console.log(data);
+          console.log(JSON.stringify({data:data, tg:initDataUnsafe_json}));
           createUnityInstance(canvas, config, (progress) => {
               progressBarFull.style.width = 100 * progress + "%";
               progressText.innerText = Math.round(100 * progress) + "%";
