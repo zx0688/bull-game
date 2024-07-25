@@ -105,7 +105,7 @@
     script.src = loaderUrl;
     script.onload = () => {
 
-      fetch('https://game.kolotushins.tech/profile/get', {
+      fetch('https://localhost:8443/profile/get', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json'},
         body: initDataUnsafe_json
