@@ -100,15 +100,12 @@
 
     loadingBar.style.display = "block";
 
-    var initDataUnsafe_json = JSON.stringify(tg.initDataUnsafe);
     var script = document.createElement("script");
     script.src = loaderUrl;
     script.onload = () => {
 
-      fetch('https://localhost:8443/profile/get', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json'},
-        body: initDataUnsafe_json
+      fetch('https://localhost:8443/profile/get?${tg.initData}', {
+        method: 'GET',
       })
       .then(response => {
         if (!response.ok)
@@ -116,13 +113,13 @@
         return response.text();
       })
       .then(data => {
-          console.log(JSON.stringify({data:data, tg:initDataUnsafe_json}));
+          console.log(JSON.stringify({data:data, tg:tg.initData}));
           createUnityInstance(canvas, config, (progress) => {
               progressBarFull.style.width = 100 * progress + "%";
               progressText.innerText = Math.round(100 * progress) + "%";
           }).then((unityInstance) => {
 
-        unityInstance.SendMessage('GameModel', 'ReceiveTelegramData', JSON.stringify({data:data, tg:initDataUnsafe_json}));
+        unityInstance.SendMessage('GameModel', 'ReceiveTelegramData', JSON.stringify({data:data, tg:tg.initData}));
 
         loadingBar.style.display = "none";
         }).catch((message) => {
