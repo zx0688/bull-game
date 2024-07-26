@@ -104,7 +104,7 @@
     script.src = loaderUrl;
     script.onload = () => {
 
-      fetch('https://localhost:8443/profile/get?${tg.initData}', {
+      fetch('https://localhost:8443/profile/get?' + tg.initData, {
         method: 'GET',
       })
       .then(response => {
